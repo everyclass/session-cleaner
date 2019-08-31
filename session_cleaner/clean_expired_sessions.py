@@ -38,4 +38,4 @@ except pymongo.errors.OperationFailure:
 except pymongo.errors.ConfigurationError:
     print("请配置密码!")
 else:
-    print(n.deleted_count, "个session已清理")
+    print(n.deleted_count, "个session(s)已清理")
