@@ -36,4 +36,5 @@ except pymongo.errors.OperationFailure:
 except pymongo.errors.ConfigurationError:
     print("请配置密码!")
 else:
+    print(datetime.datetime.now())
     print(n.deleted_count, "个session已清理")
