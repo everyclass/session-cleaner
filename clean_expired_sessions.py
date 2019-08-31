@@ -10,6 +10,8 @@ dbname = os.getenv('DB')
 dblink = os.getenv('MONGODB_LINK')
 dbport = os.getenv('MONGODB_PORT')
 
+print(datetime.datetime.now())
+
 try:
     if dbuser is None or dbuser == '':
         if dbpassword is None or dbpassword == '':
@@ -27,7 +29,6 @@ try:
     col = db["session"]
     query = {"expiration": {"$lt": datetime.datetime.today()}}
     n = col.delete_many(query)
-    print(datetime.datetime.now())
 except (TypeError, NameError, pymongo.errors.ServerSelectionTimeoutError):
     print("连接失败!")
 except ValueError:
