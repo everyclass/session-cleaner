@@ -7,6 +7,6 @@ ENV MONGODB_PASSWORD root
 ENV DB Test
 WORKDIR /session_cleaner
 COPY . /session_cleaner
-RUN pip3 install pipenv
+RUN pip3 install pipenv \
 	&& pipenv sync
 CMD ["pipenv","run","python","clean_expired_sessions.py"]
