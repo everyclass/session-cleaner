@@ -4,29 +4,29 @@ import pymongo
 import datetime
 import os
 
-mydbuser = os.getenv('MONGODB_USER')
-mydbpassword = os.getenv('MONGODB_PASSWORD')
-mydbname = os.getenv('DB')
-mydblink = os.getenv('MONGODB_LINK')
-mydbport = os.getenv('MONGODB_PORT')
+dbuser = os.getenv('MONGODB_USER')
+dbpassword = os.getenv('MONGODB_PASSWORD')
+dbname = os.getenv('DB')
+dblink = os.getenv('MONGODB_LINK')
+dbport = os.getenv('MONGODB_PORT')
 
 try:
-    if mydbuser is None:
-        if mydbpassword is None:
-            mongodb = "mongodb://" + mydblink + ':' + mydbport + "/"
+    if dbuser is None:
+        if dbpassword is None:
+            mongodb = "mongodb://" + dblink + ':' + dbport + "/"
         else:
-            mongodb = "mongodb://" + mydbuser + '@' + mydblink + ':' + mydbport + "/"
+            mongodb = "mongodb://" + dbuser + '@' + dblink + ':' + dbport + "/"
     else:
-        mongodb = "mongodb://" + mydbuser + ':' + mydbpassword + '@' + mydblink + ':' + mydbport + "/"
+        mongodb = "mongodb://" + dbuser + ':' + dbpassword + '@' + dblink + ':' + dbport + "/"
 except TypeError:
     print("请先配置MongoDB连接地址！")
 
 try:
-    myclient = pymongo.MongoClient(mongodb)
-    mydb = myclient[mydbname]
-    mycol = mydb["session"]
-    myquery = {"expiration": {"$lt": datetime.datetime.today()}}
-    n = mycol.delete_many(myquery)
+    client = pymongo.MongoClient(mongodb)
+    db = client[mydbname]
+    col = db["session"]
+    query = {"expiration": {"$lt": datetime.datetime.today()}}
+    n = col.delete_many(query)
 except TypeError, NameError:
     print("连接失败!")
 else:
