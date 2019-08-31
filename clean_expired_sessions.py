@@ -11,8 +11,8 @@ dblink = os.getenv('MONGODB_LINK')
 dbport = os.getenv('MONGODB_PORT')
 
 try:
-    if dbuser is None:
-        if dbpassword is None:
+    if dbuser is None or dbuser == '':
+        if dbpassword is None or dbpassword == '':
             mongodb = "mongodb://" + dblink + ':' + dbport + "/"
         else:
             mongodb = "mongodb://" + dbuser + '@' + dblink + ':' + dbport + "/"
@@ -27,7 +27,13 @@ try:
     col = db["session"]
     query = {"expiration": {"$lt": datetime.datetime.today()}}
     n = col.delete_many(query)
-except (TypeError, NameError):
+except (TypeError, NameError, pymongo.errors.ServerSelectionTimeoutError):
     print("连接失败!")
+except ValueError:
+    print("端口值有误!")
+except pymongo.errors.OperationFailure:
+    print("验证失败!")
+except pymongo.errors.ConfigurationError:
+    print("请配置密码!")
 else:
     print(n.deleted_count, "个session已清理")
