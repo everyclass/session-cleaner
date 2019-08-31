@@ -27,6 +27,7 @@ try:
     col = db["session"]
     query = {"expiration": {"$lt": datetime.datetime.today()}}
     n = col.delete_many(query)
+    print(datetime.datetime.now())
 except (TypeError, NameError, pymongo.errors.ServerSelectionTimeoutError):
     print("连接失败!")
 except ValueError:
@@ -36,5 +37,4 @@ except pymongo.errors.OperationFailure:
 except pymongo.errors.ConfigurationError:
     print("请配置密码!")
 else:
-    print(datetime.datetime.now())
     print(n.deleted_count, "个session已清理")
