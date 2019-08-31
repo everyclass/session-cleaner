@@ -23,11 +23,11 @@ except TypeError:
 
 try:
     client = pymongo.MongoClient(mongodb)
-    db = client[mydbname]
+    db = client[dbname]
     col = db["session"]
     query = {"expiration": {"$lt": datetime.datetime.today()}}
     n = col.delete_many(query)
-except TypeError, NameError:
+except (TypeError, NameError):
     print("连接失败!")
 else:
     print(n.deleted_count, "个session已清理")
