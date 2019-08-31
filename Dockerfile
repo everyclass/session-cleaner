@@ -5,9 +5,8 @@ ENV MONGODB_PORT 27017
 ENV MONGODB_USER root
 ENV MONGODB_PASSWORD root
 ENV DB Test
+WORKDIR /
+COPY . /
 RUN pip3 install pipenv
-WORKDIR /clean_sessions
-COPY . /clean_sessions
-RUN pipenv install
-RUN pipenv lock
+  && pipenv sync
 CMD ["pipenv","run","python","clean_expired_sessions.py"]
