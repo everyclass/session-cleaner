@@ -33,7 +33,7 @@ num = re.compile(r'\d+')
 now = datetime.datetime.today()
 d = int(num.search(days.search(expiration).group(0)).group(0))
 h = int(num.search(hours.search(expiration).group(0)).group(0))
-query = {"expiration": {"$lt": (now + datetime.timedelta(days=d,hours=h))}}
+query = {"expiration": {"$lt": (now - datetime.timedelta(days=d,hours=h))}}
 
 n = col.delete_many(query)
 print(n.deleted_count, "个session(s)已清理")
