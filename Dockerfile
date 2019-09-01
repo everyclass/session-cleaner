@@ -5,8 +5,10 @@ ENV MONGODB_PORT 27017
 ENV MONGODB_USER root
 ENV MONGODB_PASSWORD root
 ENV DB Test
-WORKDIR /session_cleaner
-COPY . /session_cleaner
+
+WORKDIR /var/app/session_cleaner
+COPY . /var/app/session_cleaner
+
 RUN pip3 install pipenv \
 	&& pipenv sync
 CMD ["pipenv","run","python","clean_expired_sessions.py"]
