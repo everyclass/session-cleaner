@@ -4,28 +4,28 @@ import pymongo
 import datetime
 import os
 
-dbuser = os.getenv('MONGODB_USER')
-dbpassword = os.getenv('MONGODB_PASSWORD')
-dbname = os.getenv('DB')
-dblink = os.getenv('MONGODB_HOST')
-dbport = os.getenv('MONGODB_PORT')
+username = os.getenv('MONGODB_USER')
+password = os.getenv('MONGODB_PASSWORD')
+db_name = os.getenv('DB')
+host = os.getenv('MONGODB_HOST')
+port = os.getenv('MONGODB_PORT')
 
-print(datetime.datetime.now())
+print(f"Current time: {datetime.datetime.now()}")
 
 try:
-    if dbuser is None or dbuser == '':
-        if dbpassword is None or dbpassword == '':
-            mongodb = "mongodb://" + dblink + ':' + dbport + "/"
+    if username is None or username == '':
+        if password is None or password == '':
+            mongodb = "mongodb://" + host + ':' + port + "/"
         else:
-            mongodb = "mongodb://" + dbuser + '@' + dblink + ':' + dbport + "/"
+            mongodb = "mongodb://" + username + '@' + host + ':' + port + "/"
     else:
-        mongodb = "mongodb://" + dbuser + ':' + dbpassword + '@' + dblink + ':' + dbport + "/"
+        mongodb = "mongodb://" + username + ':' + password + '@' + host + ':' + port + "/"
 except TypeError:
     print("请先配置MongoDB连接地址！")
 
 try:
     client = pymongo.MongoClient(mongodb)
-    db = client[dbname]
+    db = client[db_name]
     col = db["session"]
     query = {"expiration": {"$lt": datetime.datetime.today()}}
     n = col.delete_many(query)
