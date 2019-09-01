@@ -31,8 +31,15 @@ days = re.compile(r'\d+d',re.I)
 hours = re.compile(r'\d+h',re.I)
 num = re.compile(r'\d+')
 now = datetime.datetime.today()
-d = int(num.search(days.search(expiration).group(0)).group(0))
-h = int(num.search(hours.search(expiration).group(0)).group(0))
+
+if days.search(expiration) is None:
+    d = 0
+else:
+    d = int(num.search(days.search(expiration).group(0)).group(0))
+if hours.search(expiration) is None:
+    h = 0
+else:
+    h = int(num.search(hours.search(expiration).group(0)).group(0))
 query = {"expiration": {"$lt": (now - datetime.timedelta(days=d,hours=h))}}
 
 n = col.delete_many(query)
